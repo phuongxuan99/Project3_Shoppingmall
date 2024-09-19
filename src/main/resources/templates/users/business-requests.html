@@ -58,7 +58,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // 서버에서 사업자 사용자 요청 목록을 가져옵니다.
-        fetch("/api/business-user-requests")
+        fetch("/users/business-user-requests")
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById("requestTableBody");

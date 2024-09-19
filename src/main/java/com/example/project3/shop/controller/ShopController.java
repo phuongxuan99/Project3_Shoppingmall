@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/shops")
+@RequestMapping("shops")
 @Table(name = "shop_id")
 public class ShopController {
 

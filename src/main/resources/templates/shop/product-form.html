@@ -82,7 +82,7 @@
         const price = document.getElementById('productPrice').value;
         const stock = document.getElementById('productStock').value;
 
-        fetch(`/api/shops/${shopId}/products`, {
+        fetch(`/shops/${shopId}/products`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +107,7 @@
         const price = document.getElementById('updateProductPrice').value;
         const stock = document.getElementById('updateProductStock').value;
 
-        fetch(`/api/shops/${shopId}/products/${productId}`, {
+        fetch(`/shops/${shopId}/products/${productId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +129,7 @@
         event.preventDefault();
         const productId = document.getElementById('productIdDelete').value;
 
-        fetch(`/api/shops/${shopId}/products/${productId}`, {
+        fetch(`/shops/${shopId}/products/${productId}`, {
             method: 'DELETE',
         }).then(response => {
             if (response.ok) {
@@ -149,7 +149,7 @@
         const minPrice = document.getElementById('minPrice').value;
         const maxPrice = document.getElementById('maxPrice').value;
 
-        fetch(`/api/shops/${shopId}/products/search?name=${name}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+        fetch(`/shops/${shopId}/products/search?name=${name}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
             .then(response => response.json())
             .then(products => {
                 console.log(products);

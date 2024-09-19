@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/purchase-requests")
+@RequestMapping("/shop/purchase-requests")
 @Table(name = "purchase")
 public class PurchaseController {
     private final PurchaseService purchaseService;

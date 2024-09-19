@@ -55,7 +55,7 @@
         var quantity = document.getElementById('quantity').value;
         var totalAmount = document.getElementById('totalAmount').value;
 
-        fetch('/api/purchase-requests', {
+        fetch('/purchase-requests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +78,7 @@
         event.preventDefault();
         var acceptId = document.getElementById('acceptId').value;
 
-        fetch('/api/purchase-requests/' + acceptId + '/accept', {
+        fetch('/purchase-requests/' + acceptId + '/accept', {
             method: 'POST',
         }).then(response => {
             if (response.ok) {
@@ -97,7 +97,7 @@
         event.preventDefault();
         var cancelId = document.getElementById('cancelId').value;
 
-        fetch('/api/purchase-requests/' + cancelId + '/cancel', {
+        fetch('/purchase-requests/' + cancelId + '/cancel', {
             method: 'POST',
         }).then(response => {
             if (response.ok) {
