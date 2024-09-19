@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사업자 사용자 요청 목록</title>
+    <style>
+        /* 스타일 추가 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .container {
+            padding: 20px;
+        }
+        .button {
+            padding: 5px 10px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button.reject {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>사업자 사용자 요청 목록</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>닉네임</th>
+            <th>연령대</th>
+            <th>이메일</th>
+            <th>전화번호</th>
+            <th>상태</th>
+            <th>액션</th>
+        </tr>
+        </thead>
+        <tbody id="requestTableBody">
+        <!-- 데이터가 여기에 삽입됩니다. -->
+        </tbody>
+    </table>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 서버에서 사업자 사용자 요청 목록을 가져옵니다.
+        fetch("/api/business-user-requests")
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById("requestTableBody");
+                tableBody.innerHTML = ""; // 기존 내용을 지웁니다.
+
+                data.forEach(request => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                    <td>${request.id}</td>
+                    <td>${request.name}</td>
+                    <td>${request.nickname}</td>
+                    <td>${request.ageGroup}</td>
+                    <td>${request.email}</td>
+                    <td>${request.phoneNumber}</td>
+                    <td>${request.status}</td>
+                    <td>
+                        <button class="button approve" data-id="${request.id}">승인</button>
+                        <button class="button reject" data-id="${request.id}">거절</button>
+                    </td>
+                `;
+
+                    // 승인 버튼 클릭 이벤트 처리
+                    row.querySelector(".approve").addEventListener("click", () => {
+                        handleRequest(request.id, "approve");
+                    });
+
+                    // 거절 버튼 클릭 이벤트 처리
+                    row.querySelector(".reject").addEventListener("click", () => {
+                        handleRequest(request.id, "reject");
+                    });
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    });
+
+    function handleRequest(requestId, action) {
+        fetch(`/users/business-user-requests/${requestId}/${action}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert(`요청이 ${action === 'approve' ? '승인' : '거절'}되었습니다.`);
+                    location.reload(); // 페이지를 새로 고침하여 요청 목록을 업데이트합니다.
+                } else {
+                    alert("요청 처리에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("Error handling request:", error);
+                alert("요청 처리 중 오류가 발생했습니다.");
+            });
+    }
+</script>
+</body>
+</html>

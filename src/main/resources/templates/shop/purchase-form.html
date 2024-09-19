@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구매 요청 관리</title>
+</head>
+<body>
+<h1>구매 요청 관리</h1>
+
+<!-- 구매 요청 생성 폼 -->
+<h2>구매 요청 생성</h2>
+<form id="purchaseRequestForm" method="POST">
+    <label for="userId">사용자 ID:</label>
+    <input type="number" id="userId" name="userId" required>
+
+    <label for="productId">상품 ID:</label>
+    <input type="number" id="productId" name="productId" required>
+
+    <label for="quantity">수량:</label>
+    <input type="number" id="quantity" name="quantity" required>
+
+    <label for="totalAmount">총 금액:</label>
+    <input type="number" id="totalAmount" name="totalAmount" required>
+
+    <button type="submit">구매 요청 생성</button>
+</form>
+
+<hr>
+
+<!-- 구매 요청 수락 폼 -->
+<h2>구매 요청 수락</h2>
+<form id="acceptPurchaseRequestForm" method="POST">
+    <label for="acceptId">구매 요청 ID:</label>
+    <input type="number" id="acceptId" name="acceptId" required>
+    <button type="submit">구매 요청 수락</button>
+</form>
+
+<hr>
+
+<!-- 구매 요청 취소 폼 -->
+<h2>구매 요청 취소</h2>
+<form id="cancelPurchaseRequestForm" method="POST">
+    <label for="cancelId">구매 요청 ID:</label>
+    <input type="number" id="cancelId" name="cancelId" required>
+    <button type="submit">구매 요청 취소</button>
+</form>
+
+<script>
+    // 구매 요청 생성 처리
+    document.getElementById('purchaseRequestForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var userId = document.getElementById('userId').value;
+        var productId = document.getElementById('productId').value;
+        var quantity = document.getElementById('quantity').value;
+        var totalAmount = document.getElementById('totalAmount').value;
+
+        fetch('/api/purchase-requests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: userId, productId: productId, quantity: quantity, totalAmount: totalAmount })
+        }).then(response => {
+            if (response.ok) {
+                alert('구매 요청이 성공적으로 생성되었습니다.');
+            } else {
+                alert('구매 요청 생성 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('구매 요청 생성 중 오류가 발생했습니다.');
+        });
+    });
+
+    // 구매 요청 수락 처리
+    document.getElementById('acceptPurchaseRequestForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var acceptId = document.getElementById('acceptId').value;
+
+        fetch('/api/purchase-requests/' + acceptId + '/accept', {
+            method: 'POST',
+        }).then(response => {
+            if (response.ok) {
+                alert('구매 요청이 성공적으로 수락되었습니다.');
+            } else {
+                alert('구매 요청 수락 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('구매 요청 수락 중 오류가 발생했습니다.');
+        });
+    });
+
+    // 구매 요청 취소 처리
+    document.getElementById('cancelPurchaseRequestForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var cancelId = document.getElementById('cancelId').value;
+
+        fetch('/api/purchase-requests/' + cancelId + '/cancel', {
+            method: 'POST',
+        }).then(response => {
+            if (response.ok) {
+                alert('구매 요청이 성공적으로 취소되었습니다.');
+            } else {
+                alert('구매 요청 취소 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('구매 요청 취소 중 오류가 발생했습니다.');
+        });
+    });
+</script>
+</body>
+</html>

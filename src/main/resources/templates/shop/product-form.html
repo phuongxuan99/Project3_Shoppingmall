@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 관리</title>
+</head>
+<body>
+<h1>상품 관리</h1>
+
+<!-- 상품 생성 폼 -->
+<h2>상품 생성</h2>
+<form id="createProductForm" method="POST">
+    <label for="productName">상품명:</label>
+    <input type="text" id="productName" name="name" required>
+
+    <label for="productPrice">가격:</label>
+    <input type="number" id="productPrice" name="price" required>
+
+    <label for="productStock">재고:</label>
+    <input type="number" id="productStock" name="stock" required>
+
+    <button type="submit">상품 생성</button>
+</form>
+
+<hr>
+
+<!-- 상품 업데이트 폼 -->
+<h2>상품 업데이트</h2>
+<form id="updateProductForm" method="PUT">
+    <label for="productIdUpdate">상품 ID:</label>
+    <input type="number" id="productIdUpdate" name="productId" required>
+
+    <label for="updateProductName">상품명:</label>
+    <input type="text" id="updateProductName" name="name">
+
+    <label for="updateProductPrice">가격:</label>
+    <input type="number" id="updateProductPrice" name="price">
+
+    <label for="updateProductStock">재고:</label>
+    <input type="number" id="updateProductStock" name="stock">
+
+    <button type="submit">상품 업데이트</button>
+</form>
+
+<hr>
+
+<!-- 상품 삭제 폼 -->
+<h2>상품 삭제</h2>
+<form id="deleteProductForm" method="DELETE">
+    <label for="productIdDelete">상품 ID:</label>
+    <input type="number" id="productIdDelete" name="productId" required>
+    <button type="submit">상품 삭제</button>
+</form>
+
+<hr>
+
+<!-- 상품 검색 폼 -->
+<h2>상품 검색</h2>
+<form id="searchProductForm" method="GET">
+    <label for="searchProductName">상품명:</label>
+    <input type="text" id="searchProductName" name="name">
+
+    <label for="minPrice">최소 가격:</label>
+    <input type="number" id="minPrice" name="minPrice">
+
+    <label for="maxPrice">최대 가격:</label>
+    <input type="number" id="maxPrice" name="maxPrice">
+
+    <button type="submit">상품 검색</button>
+</form>
+
+<hr>
+
+<script>
+    const shopId = 1; // 예시로 고정된 shopId 값
+
+    // 상품 생성 처리
+    document.getElementById('createProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('productName').value;
+        const price = document.getElementById('productPrice').value;
+        const stock = document.getElementById('productStock').value;
+
+        fetch(`/api/shops/${shopId}/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name, price: price, stock: stock })
+        }).then(response => {
+            if (response.ok) {
+                alert('상품이 성공적으로 생성되었습니다.');
+            } else {
+                alert('상품 생성 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // 상품 업데이트 처리
+    document.getElementById('updateProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const productId = document.getElementById('productIdUpdate').value;
+        const name = document.getElementById('updateProductName').value;
+        const price = document.getElementById('updateProductPrice').value;
+        const stock = document.getElementById('updateProductStock').value;
+
+        fetch(`/api/shops/${shopId}/products/${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name, price: price, stock: stock })
+        }).then(response => {
+            if (response.ok) {
+                alert('상품이 성공적으로 업데이트되었습니다.');
+            } else {
+                alert('상품 업데이트 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // 상품 삭제 처리
+    document.getElementById('deleteProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const productId = document.getElementById('productIdDelete').value;
+
+        fetch(`/api/shops/${shopId}/products/${productId}`, {
+            method: 'DELETE',
+        }).then(response => {
+            if (response.ok) {
+                alert('상품이 성공적으로 삭제되었습니다.');
+            } else {
+                alert('상품 삭제 중 오류가 발생했습니다.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // 상품 검색 처리
+    document.getElementById('searchProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('searchProductName').value;
+        const minPrice = document.getElementById('minPrice').value;
+        const maxPrice = document.getElementById('maxPrice').value;
+
+        fetch(`/api/shops/${shopId}/products/search?name=${name}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+            .then(response => response.json())
+            .then(products => {
+                console.log(products);
+                alert('검색된 상품 목록은 콘솔에서 확인하세요.');
+            }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+</body>
+</html>

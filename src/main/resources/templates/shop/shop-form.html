@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쇼핑몰 관리</title>
+</head>
+<body>
+<h1>쇼핑몰 관리</h1>
+
+<!-- 쇼핑몰 생성 폼 -->
+<h2>쇼핑몰 생성</h2>
+<form action="/api/shops" method="POST">
+  <label for="userId">사용자 ID:</label>
+  <input type="number" id="userId" name="userId" required>
+  <button type="submit">쇼핑몰 생성</button>
+</form>
+
+<hr>
+
+<!-- 쇼핑몰 수정 폼 -->
+<h2>쇼핑몰 수정</h2>
+<form action="/api/shops/{id}" method="PUT">
+  <label for="shopId">쇼핑몰 ID:</label>
+  <input type="number" id="shopId" name="shopId" required>
+  <label for="name">이름:</label>
+  <input type="text" id="name" name="name" required>
+  <label for="intro">소개:</label>
+  <input type="text" id="intro" name="intro" required>
+  <label for="category">카테고리:</label>
+  <input type="text" id="category" name="category" required>
+  <button type="submit">쇼핑몰 수정</button>
+</form>
+
+<hr>
+
+<!-- 쇼핑몰 승인 요청 폼 -->
+<h2>쇼핑몰 승인 요청</h2>
+<form action="/api/shops/{id}/request-approval" method="POST">
+  <label for="shopId">쇼핑몰 ID:</label>
+  <input type="number" id="shop" name="shopId" required>
+  <button type="submit">승인 요청</button>
+</form>
+
+<hr>
+
+<!-- 쇼핑몰 폐쇄 요청 폼 -->
+<h2>쇼핑몰 폐쇄 요청</h2>
+<form id="closureForm" method="POST">
+  <label for="shopId">쇼핑몰 ID:</label>
+  <input type="number" id="number" name="shopId" required>
+
+  <label for="reason">폐쇄 사유:</label>
+  <textarea id="reason" name="reason" required></textarea>
+
+  <button type="submit">폐쇄 요청</button>
+</form>
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 쇼핑몰 생성 폼
+    document.getElementById("createShopForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const userId = document.getElementById("createUserId").value;
+      fetch("/api/shops", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      })
+              .then(response => response.json())
+              .then(data => {
+                alert("쇼핑몰이 생성되었습니다.");
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                alert("쇼핑몰 생성에 실패했습니다.");
+              });
+    });
+
+    // 쇼핑몰 수정 폼
+    document.getElementById("updateShopForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const shopId = document.getElementById("updateShopId").value;
+      const name = document.getElementById("updateName").value;
+      const intro = document.getElementById("updateIntro").value;
+      const category = document.getElementById("updateCategory").value;
+      fetch(`/api/shops/${shopId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, intro, category }),
+      })
+              .then(response => response.json())
+              .then(data => {
+                alert("쇼핑몰이 수정되었습니다.");
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                alert("쇼핑몰 수정에 실패했습니다.");
+              });
+    });
+
+    // 쇼핑몰 승인 요청 폼
+    document.getElementById("requestApprovalForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const shopId = document.getElementById("requestApprovalShopId").value;
+      fetch(`/api/shops/${shopId}/request-approval`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+              .then(response => response.json())
+              .then(data => {
+                alert("승인 요청이 제출되었습니다.");
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                alert("승인 요청에 실패했습니다.");
+              });
+    });
+
+    // 쇼핑몰 폐쇄 요청 폼
+    document.getElementById("closureForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const shopId = document.getElementById("closureShopId").value;
+      const reason = document.getElementById("closureReason").value;
+      fetch(`/api/shops/${shopId}/request-closure`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reason }),
+      })
+              .then(response => response.json())
+              .then(data => {
+                alert("폐쇄 요청이 제출되었습니다.");
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                alert("폐쇄 요청에 실패했습니다.");
+              });
+    });
+  });
+</script>
+</html>
