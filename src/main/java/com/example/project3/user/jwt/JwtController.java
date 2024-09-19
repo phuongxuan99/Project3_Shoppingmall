@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 @RestController
-@RequestMapping("token")
+@RequestMapping("users")
 public class JwtController {
     private final JwtTokenUtils tokenUtils;
     // 1. 사용자 정보를 조회하는 방법
@@ -34,7 +34,7 @@ public class JwtController {
     }
 
 
-    @PostMapping("/issue")
+    @PostMapping("/login")
     public JwtResponseDto issueJwt(
             @RequestBody
             JwtRequestDto dto
