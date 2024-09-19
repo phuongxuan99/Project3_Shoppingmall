@@ -3,10 +3,12 @@ package com.example.project3.shop.controller;
 
 import com.example.project3.shop.entity.PurchaseRequest;
 import com.example.project3.shop.service.PurchaseService;
+import jakarta.persistence.Table;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/purchase-requests")
+@Table(name = "purchase")
 public class PurchaseController {
     private final PurchaseService purchaseService;
 

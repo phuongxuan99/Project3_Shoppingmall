@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/shops/{shopId}/products")
-
+@Table( name = "product-id")
 public class ProductController {
 
     private final ProductService productService;

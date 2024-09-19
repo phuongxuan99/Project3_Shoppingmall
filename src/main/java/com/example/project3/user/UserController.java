@@ -5,6 +5,7 @@ import com.example.project3.user.dto.FileStorageService;
 import com.example.project3.user.entity.UserEntity;
 import com.example.project3.user.repo.UserRepository;
 import io.jsonwebtoken.io.IOException;
+import jakarta.persistence.Table;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/users")
+@Table(name = "user_id")
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;

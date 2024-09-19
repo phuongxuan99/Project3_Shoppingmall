@@ -4,6 +4,7 @@ import com.example.project3.shop.dto.ShopUpdateDTO;
 import com.example.project3.shop.entity.Shop;
 import com.example.project3.shop.enums.ShopCategory;
 import com.example.project3.shop.service.ShopService;
+import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/shops")
+@Table(name = "shop_id")
 public class ShopController {
 
     private final ShopService shopService;
