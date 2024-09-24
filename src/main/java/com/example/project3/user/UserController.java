@@ -17,7 +17,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("users")
-@Table(name = "user_id")
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
@@ -31,8 +30,6 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-    // 로그인 페이지
     @GetMapping("/login")
     public String loginForm() {
         return "users/login-form";
@@ -43,7 +40,7 @@ public class UserController {
         return "users/register-form";
     }
 
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public String registerUser(
             @RequestParam
             String username,
@@ -64,17 +61,13 @@ public class UserController {
     ) throws IOException {
         UserEntity user = new UserEntity();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));  // 비밀번호 암호화
         user.setNickname(nickname);
         user.setName(name);
         user.setAgeGroup(ageGroup);
         user.setEmail(email);
         user.setPhoneNumber(phone);
-        try {
-            user.setProfileImage(profileImage.getBytes());
-        } catch (java.io.IOException e) {
-            throw new RuntimeException(e);
-        }
+
         userService.registerUser(user);
         return "redirect:/users/login";
     }
