@@ -78,6 +78,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
     @PostMapping("/apply-business")
     public ResponseEntity<Void> applyForBusinessUser(@RequestBody UserEntity userEntity) {
         userService.applyForBusinessUser(userEntity);

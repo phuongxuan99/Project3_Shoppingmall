@@ -203,6 +203,22 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST/apply-business",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GET/ business-request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -210,74 +226,194 @@
 			"name": "Shops",
 			"item": [
 				{
-					"name": "post/shops",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"MyShop\", \n  \"category\": \"Electronics\", \n  \"introduction\": \"Welcome to MyShop! We offer the best electronics.\",\n  \"ownerId\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "shops",
+					"item": [
+						{
+							"name": "post/shops",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"MyShop\", \n  \"category\": \"Electronics\", \n  \"introduction\": \"Welcome to MyShop! We offer the best electronics.\",\n  \"ownerId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/shops",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"shops"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:8080/shops",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"shops"
-							]
+						{
+							"name": "POST/approveShop",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/shops/{{id}}/approve",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"shops",
+										"{{id}}",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "put/shopsid",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/shops/{{id}}?",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"shops",
+										"{{id}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST/request-closure",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "GET/shops/search",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "POST/shops/close",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "put/shopsid",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "",
-									"type": "text"
-								}
-							]
+					"name": "product",
+					"item": [
+						{
+							"name": "PUT/{Shopid}/products",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:8080/shops/{{id}}?",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"shops",
-								"{{id}}"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null
-								}
-							]
+						{
+							"name": "Delete/Shop/product{id}",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "purchase",
+					"item": [
+						{
+							"name": "POST/pruchase-request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "POST/purchase-requests/{id}/accept",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "POST/shop/purchase-requests/{{id}}/cancel",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/shop/purchase-requests/{{id}}/cancel",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"shop",
+										"purchase-requests",
+										"{{id}}",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
