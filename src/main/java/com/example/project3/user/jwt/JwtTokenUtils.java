@@ -56,19 +56,6 @@ public class JwtTokenUtils {
                 .compact();
     }
 
-//    public boolean validate(String token) {
-//        try {
-//            Claims claims = jwtParser.parseClaimsJws(token)
-//                    .getBody();
-//            log.info("subject: {}", claims.getSubject());
-//            log.info("issuedAt: {}", claims.getIssuedAt());
-//            log.info("expireAt: {}", claims.getExpiration());
-//            return true;
-//        } catch (Exception e) {
-//            log.warn("invalid jwt provided: {}", e.getMessage());
-//        }
-//        return false;
-//    }
 
     public boolean validate(String token) {
         try {

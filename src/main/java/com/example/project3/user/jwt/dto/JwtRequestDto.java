@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 public class JwtRequestDto {
     private String username;
     private String password;
+
+    public CharSequence getPassword() {
+        return null;
+    }
 }
 //    public CharSequence getPassword() {
 //        return password;
